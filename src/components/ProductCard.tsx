@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import "./styles/ProductCard.css";
 
 interface ProductCardProps {
   title: string;
@@ -9,38 +8,65 @@ interface ProductCardProps {
   image: string;
   category: string;
   index: number;
+  link?: string; // Optional link to open
 }
 
-const ProductCard = ({ title, description, price, image, category, index }: ProductCardProps) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ delay: index * 0.1, duration: 0.5 }}
-    className="group bg-card rounded-lg border overflow-hidden hover:shadow-xl hover:shadow-primary/5 transition-all duration-300"
-  >
-    <div className="overflow-hidden aspect-video">
-      <img
-        src={image}
-        alt={title}
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-        loading="lazy"
-      />
-    </div>
-    <div className="p-6">
-      <span className="text-xs font-medium text-accent uppercase tracking-wider">{category}</span>
-      <h3 className="font-heading text-lg font-semibold mt-2 mb-2">{title}</h3>
-      <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{description}</p>
-      <div className="flex items-center justify-between">
-        {price && <span className="font-heading font-bold text-primary text-lg">{price}</span>}
-        <Link to="/contact" className={price ? "" : "w-full"}>
-          <Button size="sm" className="gradient-primary text-primary-foreground" style={price ? {} : { width: "100%" }}>
-            Contact Us
-          </Button>
-        </Link>
+const ProductCard = ({
+  title,
+  description,
+  price,
+  image,
+  category,
+  index,
+  link = "#",
+}: ProductCardProps) => {
+  const handleCardClick = () => {
+    window.open(link, "_blank", "noopener,noreferrer");
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1, duration: 0.5 }}
+      className="product-card"
+      onClick={handleCardClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          handleCardClick();
+        }
+      }}
+    >
+      <div className="product-card-image-container">
+        <img
+          src={image}
+          alt={title}
+          className="product-card-image"
+          loading="lazy"
+        />
       </div>
-    </div>
-  </motion.div>
-);
+      <div className="product-card-content">
+        <span className="product-card-category">{category}</span>
+        <h3 className="product-card-title">{title}</h3>
+        <p className="product-card-description">{description}</p>
+        <div className="product-card-footer">
+          {price && <span className="product-card-price">{price}</span>}
+          <button
+            className={`product-card-button ${!price ? "product-card-button-full" : ""}`}
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent card click when button is clicked
+              window.open(link, "_blank", "noopener,noreferrer");
+            }}
+          >
+            Contact Us
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 export default ProductCard;

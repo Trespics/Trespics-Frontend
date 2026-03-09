@@ -34,10 +34,11 @@ const About = () => (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <p className="text-accent font-medium text-sm uppercase tracking-wider mb-2">About Us</p>
           <h1 className="font-heading text-4xl md:text-5xl font-bold mb-6">
-            We're a Team of <span className="gradient-text">Digital Creators</span>
+            We're a Team of Digital Creators
+            {/* <span className="gradient-text">Digital Creators</span> */}
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Founded with a passion for technology, Trespics has been helping businesses of all sizes build and scale their digital presence since 2020.
+            Founded with a passion for technology, Trespics has been helping businesses of all sizes build and scale their digital presence since 2024.
           </p>
         </motion.div>
       </div>
@@ -86,7 +87,7 @@ const About = () => (
     </section>
 
     {/* Team */}
-    <section className="section-padding">
+    {/* <section className="section-padding">
       <div className="container mx-auto">
         <SectionHeading label="Our Team" title="Meet the Experts" description="A dedicated team of professionals committed to delivering excellence." />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -95,10 +96,10 @@ const About = () => (
           ))}
         </div>
       </div>
-    </section>
+    </section> */}
 
     {/* Timeline */}
-    <section className="section-padding bg-section-alt">
+    {/* <section className="section-padding bg-section-alt">
       <div className="container mx-auto max-w-2xl">
         <SectionHeading label="Our Journey" title="Company Timeline" />
         {[
@@ -129,7 +130,7 @@ const About = () => (
           </motion.div>
         ))}
       </div>
-    </section>
+    </section> */}
   </div>
 );
 

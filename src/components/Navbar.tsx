@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import logo from "../assets/logo.jpeg";
+import "./styles/Navbar.css";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -15,20 +16,21 @@ const Navbar = () => {
   const location = useLocation();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass border-b">
-      <nav className="container mx-auto flex items-center justify-between h-16 px-4">
-        <Link to="/" className="font-heading text-2xl font-bold gradient-text">
-          Trespics
+    <header className="navbar-header">
+      <nav className="navbar-container">
+        <Link to="/" className="navbar-logo" onClick={() => setOpen(false)}>
+          <img src={logo} alt="Trespics Logo" className="navbar-logo-image" />
+          <span className="navbar-logo-text">Trespics</span>
         </Link>
 
-        {/* Desktop */}
-        <ul className="hidden md:flex items-center gap-8">
+        {/* Desktop Navigation */}
+        <ul className="navbar-desktop-menu">
           {navLinks.map((l) => (
-            <li key={l.href}>
+            <li key={l.href} className="navbar-menu-item">
               <Link
                 to={l.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  location.pathname === l.href ? "text-primary" : "text-muted-foreground"
+                className={`navbar-menu-link ${
+                  location.pathname === l.href ? "navbar-menu-link-active" : ""
                 }`}
               >
                 {l.label}
@@ -37,40 +39,48 @@ const Navbar = () => {
           ))}
         </ul>
 
-        <Link to="/contact" className="hidden md:block">
-          <Button size="sm" className="gradient-primary text-primary-foreground">
-            Get Started
-          </Button>
+        <Link to="/contact" className="navbar-desktop-cta">
+          <button className="navbar-cta-button">Get Started</button>
         </Link>
 
-        {/* Mobile toggle */}
-        <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
+        {/* Mobile toggle button */}
+        <button
+          className="navbar-mobile-toggle"
+          onClick={() => setOpen(!open)}
+          aria-label="Toggle menu"
+        >
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
       </nav>
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden glass border-b animate-fade-in">
-          <ul className="flex flex-col gap-4 p-4">
+        <div className="navbar-mobile-menu">
+          <ul className="navbar-mobile-menu-list">
             {navLinks.map((l) => (
-              <li key={l.href}>
+              <li key={l.href} className="navbar-mobile-menu-item">
                 <Link
                   to={l.href}
                   onClick={() => setOpen(false)}
-                  className={`block text-sm font-medium py-2 ${
-                    location.pathname === l.href ? "text-primary" : "text-muted-foreground"
+                  className={`navbar-mobile-menu-link ${
+                    location.pathname === l.href
+                      ? "navbar-mobile-menu-link-active"
+                      : ""
                   }`}
                 >
                   {l.label}
                 </Link>
               </li>
             ))}
-            <li>
-              <Link to="/contact" onClick={() => setOpen(false)}>
-                <Button size="sm" className="gradient-primary text-primary-foreground w-full">
+            <li className="navbar-mobile-menu-item">
+              <Link
+                to="/contact"
+                onClick={() => setOpen(false)}
+                className="navbar-mobile-cta-link"
+              >
+                <button className="navbar-cta-button navbar-cta-button-full">
                   Get Started
-                </Button>
+                </button>
               </Link>
             </li>
           </ul>

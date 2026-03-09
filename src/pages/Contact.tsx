@@ -1,96 +1,150 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Mail, Phone, MapPin, Send, MessageCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import SectionHeading from "@/components/SectionHeading";
+import api from "@/lib/api";
+import "./styles/Contact.css";
 
 const Contact = () => {
   const { toast } = useToast();
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
-      toast({ title: "Please fill in all required fields.", variant: "destructive" });
+      toast({
+        title: "Please fill in all required fields.",
+        variant: "destructive",
+      });
       return;
     }
-    toast({ title: "Message sent!", description: "We'll get back to you soon." });
-    setForm({ name: "", email: "", subject: "", message: "" });
+
+    try {
+      await api.post('/contact', form);
+      toast({
+        title: "Message sent!",
+        description: "We'll get back to you soon.",
+      });
+      setForm({ name: "", email: "", subject: "", message: "" });
+    } catch (err) {
+      console.error("Failed to send message", err);
+      toast({
+        title: "Failed to send message",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleWhatsAppClick = () => {
+    const phoneNumber = "254770428297";
+    const message = encodeURIComponent("Hello! I'm interested in your services.");
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
   };
 
   return (
-    <div className="pt-16">
-      <section className="section-padding bg-section-alt">
-        <div className="container mx-auto text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <p className="text-accent font-medium text-sm uppercase tracking-wider mb-2">Contact Us</p>
-            <h1 className="font-heading text-4xl md:text-5xl font-bold mb-6">
-              Let's <span className="gradient-text">Talk</span>
-            </h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-              Have a project in mind? We'd love to hear from you. Drop us a message and we'll respond within 24 hours.
+    <div className="contact-page">
+      {/* Hero Section */}
+      <section className="contact-hero-section">
+        <div className="contact-hero-container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="contact-hero-content"
+          >
+            <p className="contact-hero-subtitle">Contact Us</p>
+            <h1 className="contact-hero-title">Let's Talk</h1>
+            <p className="contact-hero-description">
+              Have a project in mind? We'd love to hear from you. Drop us a
+              message and we'll respond within 24 hours.
             </p>
           </motion.div>
         </div>
       </section>
 
-      <section className="section-padding">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+      {/* Contact Section */}
+      <section className="contact-section">
+        <div className="contact-container">
+          <div className="contact-grid">
             {/* Form */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="lg:col-span-3"
+              className="contact-form-wrapper"
             >
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">Name *</label>
-                    <Input
+              <form onSubmit={handleSubmit} className="contact-form">
+                <div className="contact-form-row">
+                  <div className="contact-form-group">
+                    <label className="contact-form-label">
+                      Name <span className="contact-required">*</span>
+                    </label>
+                    <input
+                      type="text"
                       value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      onChange={(e) =>
+                        setForm({ ...form, name: e.target.value })
+                      }
                       placeholder="John Doe"
                       maxLength={100}
+                      className="contact-form-input"
                     />
                   </div>
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">Email *</label>
-                    <Input
+                  <div className="contact-form-group">
+                    <label className="contact-form-label">
+                      Email <span className="contact-required">*</span>
+                    </label>
+                    <input
                       type="email"
                       value={form.email}
-                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      onChange={(e) =>
+                        setForm({ ...form, email: e.target.value })
+                      }
                       placeholder="john@example.com"
                       maxLength={255}
+                      className="contact-form-input"
                     />
                   </div>
                 </div>
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Subject</label>
-                  <Input
+
+                <div className="contact-form-group">
+                  <label className="contact-form-label">Subject</label>
+                  <input
+                    type="text"
                     value={form.subject}
-                    onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, subject: e.target.value })
+                    }
                     placeholder="Project Inquiry"
                     maxLength={200}
+                    className="contact-form-input"
                   />
                 </div>
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Message *</label>
-                  <Textarea
+
+                <div className="contact-form-group">
+                  <label className="contact-form-label">
+                    Message <span className="contact-required">*</span>
+                  </label>
+                  <textarea
                     value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, message: e.target.value })
+                    }
                     placeholder="Tell us about your project..."
                     rows={6}
                     maxLength={2000}
+                    className="contact-form-textarea"
                   />
                 </div>
-                <Button type="submit" size="lg" className="gradient-primary text-primary-foreground gap-2">
+
+                <button type="submit" className="contact-submit-button">
                   <Send size={18} /> Send Message
-                </Button>
+                </button>
               </form>
             </motion.div>
 
@@ -99,45 +153,90 @@ const Contact = () => {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="lg:col-span-2 space-y-8"
+              className="contact-info-wrapper"
             >
-              <div>
-                <h3 className="font-heading text-xl font-semibold mb-6">Contact Information</h3>
-                <div className="space-y-6">
-                  {[
-                    { icon: Mail, label: "Email", value: "info@trespics.com" },
-                    { icon: Phone, label: "Phone", value: "+1 (555) 123-4567" },
-                    { icon: MapPin, label: "Address", value: "123 Tech Street, San Francisco, CA 94105" },
-                  ].map((item) => (
-                    <div key={item.label} className="flex gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <item.icon size={20} className="text-primary" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">{item.label}</p>
-                        <p className="font-medium text-sm">{item.value}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <div className="contact-info-card">
+                <h3 className="contact-info-title">Contact Information</h3>
 
-              {/* Map embed */}
-              <div className="rounded-lg overflow-hidden border">
-                <iframe
-                  title="Location"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.019394720089!2d-122.39997!3d37.78813!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDQ3JzE3LjMiTiAxMjLCsDIzJzU5LjkiVw!5e0!3m2!1sen!2sus!4v1600000000000!5m2!1sen!2sus"
-                  width="100%"
-                  height="250"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                />
+                <div className="contact-info-list">
+                  <div className="contact-info-item">
+                    <div className="contact-info-icon">
+                      <Mail size={20} />
+                    </div>
+                    <div className="contact-info-content">
+                      <p className="contact-info-label">Email</p>
+                      <p className="contact-info-value">trespicsj@gmail.com</p>
+                    </div>
+                  </div>
+
+                  <div className="contact-info-item">
+                    <div className="contact-info-icon">
+                      <Phone size={20} />
+                    </div>
+                    <div className="contact-info-content">
+                      <p className="contact-info-label">Phone</p>
+                      <p className="contact-info-value">+254 770 428 297</p>
+                    </div>
+                  </div>
+
+                  <div className="contact-info-item">
+                    <div className="contact-info-icon">
+                      <MapPin size={20} />
+                    </div>
+                    <div className="contact-info-content">
+                      <p className="contact-info-label">Address</p>
+                      <p className="contact-info-value">10304 Kirinyaga</p>
+                    </div>
+                  </div>
+
+                  {/* WhatsApp Contact */}
+                  <div className="contact-info-item contact-whatsapp-item">
+                    <div className="contact-info-icon contact-whatsapp-icon">
+                      <MessageCircle size={20} />
+                    </div>
+                    <div className="contact-info-content">
+                      <p className="contact-info-label">WhatsApp</p>
+                      <button
+                        onClick={handleWhatsAppClick}
+                        className="contact-whatsapp-button"
+                      >
+                        Chat on WhatsApp
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quick Contact Buttons */}
+                <div className="contact-quick-actions">
+                  <a
+                    href="mailto:trespicsj@gmail.com"
+                    className="contact-quick-action"
+                  >
+                    <Mail size={16} />
+                    Email Us
+                  </a>
+                  <button
+                    onClick={handleWhatsAppClick}
+                    className="contact-quick-action contact-quick-action-whatsapp"
+                  >
+                    <MessageCircle size={16} />
+                    WhatsApp
+                  </button>
+                </div>
               </div>
             </motion.div>
           </div>
         </div>
       </section>
+
+      {/* Floating WhatsApp Button */}
+      <button
+        onClick={handleWhatsAppClick}
+        className="contact-whatsapp-float"
+        aria-label="Chat on WhatsApp"
+      >
+        <MessageCircle size={24} />
+      </button>
     </div>
   );
 };

@@ -1,23 +1,23 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
+import "./styles/Hero.css";
 
 const HeroSection = () => (
-  <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <section className="hero-section">
     <div
-      className="absolute inset-0 bg-cover bg-center"
+      className="hero-background"
       style={{ backgroundImage: `url(${heroBg})` }}
     />
-    <div className="absolute inset-0 bg-hero-overlay/80" />
-
-    <div className="relative z-10 container mx-auto px-4 text-center">
+    <div className="hero-overlay" />
+   
+    <div className="hero-content">
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="text-accent font-medium mb-4 tracking-wider uppercase text-sm"
+        className="hero-subtitle"
       >
         Digital Solutions That Deliver
       </motion.p>
@@ -26,37 +26,38 @@ const HeroSection = () => (
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground mb-6 leading-tight"
+        className="hero-title"
       >
         We Build Apps, Websites
         <br />
-        <span className="gradient-text">& Smart Systems</span>
+        <span className="hero-title-gradient">& Smart Systems</span>
       </motion.h1>
 
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
-        className="text-primary-foreground/70 text-lg md:text-xl max-w-2xl mx-auto mb-8"
+        className="hero-description"
       >
-        From concept to deployment, Trespics transforms your ideas into powerful digital products that scale your business.
+        From concept to deployment, Trespics transforms your ideas into powerful
+        digital products that scale your business.
       </motion.p>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8 }}
-        className="flex flex-col sm:flex-row gap-4 justify-center"
+        className="hero-buttons"
       >
-        <Link to="/contact">
-          <Button size="lg" className="gradient-primary text-primary-foreground gap-2 text-base px-8">
+        <Link to="/contact" className="hero-button-primary-wrapper">
+          <button className="hero-button hero-button-primary">
             Get Started <ArrowRight size={18} />
-          </Button>
+          </button>
         </Link>
-        <Link to="/products">
-          <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 text-base px-8">
+        <Link to="/products" className="hero-button-secondary-wrapper">
+          <button className="hero-button hero-button-secondary">
             View Products
-          </Button>
+          </button>    
         </Link>
       </motion.div>
     </div>

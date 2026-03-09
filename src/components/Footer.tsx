@@ -1,48 +1,84 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
+import Logo from "@/assets/logo.jpeg";
+import "./styles/Footer.css";
 
 const Footer = () => (
-  <footer className="bg-foreground text-background">
-    <div className="container mx-auto section-padding">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-        <div className="md:col-span-1">
-          <h3 className="font-heading text-2xl font-bold mb-4 gradient-text">Trespics</h3>
-          <p className="text-sm opacity-70">
-            Building digital solutions that drive growth. Apps, websites, and systems crafted with precision.
+  <footer className="footer">
+    <div className="footer-container">
+      <div className="footer-grid">
+        {/* Brand Section */}
+        <div className="footer-brand">
+          <div className="footer-logo-container">
+            <img src={Logo} alt="Trespics Logo" className="footer-logo" />
+            <h3 className="footer-brand-title">Trespics</h3>
+          </div>
+          <p className="footer-brand-description">
+            Building digital solutions that drive growth. Apps, websites, and
+            systems crafted with precision.
           </p>
         </div>
 
-        <div>
-          <h4 className="font-heading font-semibold mb-4">Quick Links</h4>
-          <ul className="space-y-2 text-sm opacity-70">
-            <li><Link to="/" className="hover:opacity-100 transition-opacity">Home</Link></li>
-            <li><Link to="/about" className="hover:opacity-100 transition-opacity">About Us</Link></li>
-            <li><Link to="/products" className="hover:opacity-100 transition-opacity">Products</Link></li>
-            <li><Link to="/contact" className="hover:opacity-100 transition-opacity">Contact</Link></li>
+        {/* Quick Links */}
+        <div className="footer-links">
+          <h4 className="footer-links-title">Quick Links</h4>
+          <ul className="footer-links-list">
+            <li>
+              <Link to="/" className="footer-link">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/about" className="footer-link">
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link to="/products" className="footer-link">
+                Products
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" className="footer-link">
+                Contact
+              </Link>
+            </li>
           </ul>
         </div>
 
-        <div>
-          <h4 className="font-heading font-semibold mb-4">Services</h4>
-          <ul className="space-y-2 text-sm opacity-70">
-            <li>App Development</li>
-            <li>Website Development</li>
-            <li>Systems Solutions</li>
-            <li>Consulting</li>
+        {/* Services */}
+        <div className="footer-links">
+          <h4 className="footer-links-title">Services</h4>
+          <ul className="footer-links-list">
+            <li className="footer-service-item">App Development</li>
+            <li className="footer-service-item">Website Development</li>
+            <li className="footer-service-item">Systems Solutions</li>
+            <li className="footer-service-item">Consulting</li>
           </ul>
         </div>
 
-        <div>
-          <h4 className="font-heading font-semibold mb-4">Contact</h4>
-          <ul className="space-y-3 text-sm opacity-70">
-            <li className="flex items-center gap-2"><Mail size={14} /> info@trespics.com</li>
-            <li className="flex items-center gap-2"><Phone size={14} /> +1 (555) 123-4567</li>
-            <li className="flex items-center gap-2"><MapPin size={14} /> 123 Tech Street, CA</li>
+        {/* Contact Information */}
+        <div className="footer-contact">
+          <h4 className="footer-contact-title">Contact</h4>
+          <ul className="footer-contact-list">
+            <li className="footer-contact-item">
+              <Mail size={14} className="footer-contact-icon" />
+              <span>trespicsj@gmail.com</span>
+            </li>
+            <li className="footer-contact-item">
+              <Phone size={14} className="footer-contact-icon" />
+              <span>+254 770 428 297</span>
+            </li>
+            <li className="footer-contact-item">
+              <MapPin size={14} className="footer-contact-icon" />
+              <span>10304 Kirinyaga</span>
+            </li>
           </ul>
         </div>
       </div>
 
-      <div className="mt-12 pt-8 border-t border-background/10 text-center text-sm opacity-50">
+      {/* Copyright */}
+      <div className="footer-copyright">
         © {new Date().getFullYear()} Trespics Company. All rights reserved.
       </div>
     </div>
