@@ -9,18 +9,23 @@ import "./styles/Products.css";
 const Products = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchProducts = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await api.get('/projects');
+      setProducts(response.data);
+    } catch (err: any) {
+      console.error("Failed to fetch products", err);
+      setError(err.response?.data?.error?.message || "Failed to load products. Please check your connection and try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await api.get('/projects');
-        setProducts(response.data);
-      } catch (err) {
-        console.error("Failed to fetch products", err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchProducts();
   }, []);
 
@@ -50,6 +55,16 @@ const Products = () => {
         <div className="products-grid-container">
           {loading ? (
             <div className="flex justify-center p-20"><Loader2 className="animate-spin text-primary" size={40} /></div>
+          ) : error ? (
+            <div className="text-center p-20">
+              <p className="text-red-500 mb-4">{error}</p>
+              <button 
+                onClick={fetchProducts}
+                className="bg-primary text-white px-6 py-2 rounded-md hover:bg-primary/90 transition-colors"
+              >
+                Retry
+              </button>
+            </div>
           ) : (
             <div className="products-grid">
               {products.map((product, index) => (
