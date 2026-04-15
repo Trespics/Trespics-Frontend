@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
-  //  base: "/Trespics-Frontend/",
+  //  base: "/Florante-Frontend/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

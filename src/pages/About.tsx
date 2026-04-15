@@ -38,7 +38,7 @@ const About = () => (
             {/* <span className="gradient-text">Digital Creators</span> */}
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Founded with a passion for technology, Trespics has been helping businesses of all sizes build and scale their digital presence since 2024.
+            Founded with a passion for technology, Florante has been helping businesses of all sizes build and scale their digital presence since 2024.
           </p>
         </motion.div>
       </div>
@@ -103,7 +103,7 @@ const About = () => (
       <div className="container mx-auto max-w-2xl">
         <SectionHeading label="Our Journey" title="Company Timeline" />
         {[
-          { year: "2020", event: "Trespics founded with a small team of 3 developers." },
+          { year: "2020", event: "Florante founded with a small team of 3 developers." },
           { year: "2021", event: "Delivered first 25 projects and expanded the team." },
           { year: "2022", event: "Launched our first SaaS product line." },
           { year: "2023", event: "Reached 100+ projects with clients across 10 countries." },

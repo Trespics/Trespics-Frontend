@@ -39,7 +39,7 @@ const HeroSection = () => (
         transition={{ delay: 0.6 }}
         className="hero-description"
       >
-        From concept to deployment, Trespics transforms your ideas into powerful
+        From concept to deployment, Florante transforms your ideas into powerful
         digital products that scale your business.
       </motion.p>
 

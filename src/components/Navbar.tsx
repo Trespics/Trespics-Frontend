@@ -19,12 +19,12 @@ const Navbar = () => {
     <header className="navbar-header">
       <nav className="navbar-container">
         <Link to="/" className="navbar-logo" onClick={() => setOpen(false)}>
-          <img src={logo} alt="Trespics Logo" className="navbar-logo-image" />
-          <span className="navbar-logo-text">Trespics</span>
+          <img src={logo} alt="Florante Logo" className="navbar-logo-image" />
+          <span className="navbar-logo-text">Florante</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <ul className="navbar-desktop-menu">
+        <ul className="navbar-desktop-menu">           
           {navLinks.map((l) => (
             <li key={l.href} className="navbar-menu-item">
               <Link

@@ -10,8 +10,8 @@ const Footer = () => (
         {/* Brand Section */}
         <div className="footer-brand">
           <div className="footer-logo-container">
-            <img src={Logo} alt="Trespics Logo" className="footer-logo" />
-            <h3 className="footer-brand-title">Trespics</h3>
+            <img src={Logo} alt="Florante Logo" className="footer-logo" />
+            <h3 className="footer-brand-title">Florante</h3>
           </div>
           <p className="footer-brand-description">
             Building digital solutions that drive growth. Apps, websites, and
@@ -63,7 +63,7 @@ const Footer = () => (
           <ul className="footer-contact-list">
             <li className="footer-contact-item">
               <Mail size={14} className="footer-contact-icon" />
-              <span>trespicsj@gmail.com</span>
+              <span>Florantej@gmail.com</span>
             </li>
             <li className="footer-contact-item">
               <Phone size={14} className="footer-contact-icon" />
@@ -79,7 +79,7 @@ const Footer = () => (
 
       {/* Copyright */}
       <div className="footer-copyright">
-        © {new Date().getFullYear()} Trespics Company. All rights reserved.
+        © {new Date().getFullYear()} Florante Company. All rights reserved.
       </div>
     </div>
   </footer>

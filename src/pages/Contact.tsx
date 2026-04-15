@@ -165,7 +165,7 @@ const Contact = () => {
                     </div>
                     <div className="contact-info-content">
                       <p className="contact-info-label">Email</p>
-                      <p className="contact-info-value">trespicsj@gmail.com</p>
+                      <p className="contact-info-value">florantej@gmail.com</p>
                     </div>
                   </div>
 
@@ -209,7 +209,7 @@ const Contact = () => {
                 {/* Quick Contact Buttons */}
                 <div className="contact-quick-actions">
                   <a
-                    href="mailto:trespicsj@gmail.com"
+                    href="mailto:Florantej@gmail.com"
                     className="contact-quick-action"
                   >
                     <Mail size={16} />
