@@ -8,6 +8,7 @@ const navLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Products", href: "/products" },
+  { label: "Hackathons", href: "/projects" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -26,7 +27,7 @@ const Navbar = () => {
         {/* Desktop Navigation */}
         <ul className="navbar-desktop-menu">           
           {navLinks.map((l) => (
-            <li key={l.href} className="navbar-menu-item">
+            <li key={l.label} className="navbar-menu-item">
               <Link
                 to={l.href}
                 className={`navbar-menu-link ${
@@ -58,7 +59,7 @@ const Navbar = () => {
         <div className="navbar-mobile-menu">
           <ul className="navbar-mobile-menu-list">
             {navLinks.map((l) => (
-              <li key={l.href} className="navbar-mobile-menu-item">
+              <li key={l.label} className="navbar-mobile-menu-item">
                 <Link
                   to={l.href}
                   onClick={() => setOpen(false)}

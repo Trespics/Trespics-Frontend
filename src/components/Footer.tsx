@@ -39,6 +39,11 @@ const Footer = () => (
               </Link>
             </li>
             <li>
+              <Link to="/projects" className="footer-link">
+                Projects
+              </Link>
+            </li>
+            <li>
               <Link to="/contact" className="footer-link">
                 Contact
               </Link>
@@ -63,11 +68,11 @@ const Footer = () => (
           <ul className="footer-contact-list">
             <li className="footer-contact-item">
               <Mail size={14} className="footer-contact-icon" />
-              <span>Florantej@gmail.com</span>
+              <span>techrica2@gmail.com</span>
             </li>
             <li className="footer-contact-item">
               <Phone size={14} className="footer-contact-icon" />
-              <span>+254 770 428 297</span>
+              <span>+254 11 860 6119</span>
             </li>
             <li className="footer-contact-item">
               <MapPin size={14} className="footer-contact-icon" />
