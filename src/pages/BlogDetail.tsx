@@ -94,9 +94,11 @@ const BlogDetail = () => {
   }, [slug]);
 
   const handleLike = async () => {
-    if (!blog || !currentUser) return;
+    if (!blog) return;
     try {
-      const res = await api.post(`/blogs/${blog.id}/like`, { user_id: currentUser.id });
+      const res = await api.post(`/blogs/${blog.id}/like`, { 
+        user_id: currentUser?.id || null 
+      });
       setLiked(res.data.liked);
       setBlog((prev) =>
         prev ? { ...prev, likes_count: prev.likes_count + (res.data.liked ? 1 : -1) } : prev
@@ -107,9 +109,11 @@ const BlogDetail = () => {
   };
 
   const handleSave = async () => {
-    if (!blog || !currentUser) return;
+    if (!blog) return;
     try {
-      const res = await api.post(`/blogs/${blog.id}/save`, { user_id: currentUser.id });
+      const res = await api.post(`/blogs/${blog.id}/save`, { 
+        user_id: currentUser?.id || null 
+      });
       setSaved(res.data.saved);
       setBlog((prev) =>
         prev ? { ...prev, saves_count: prev.saves_count + (res.data.saved ? 1 : -1) } : prev
@@ -119,14 +123,19 @@ const BlogDetail = () => {
     }
   };
 
+  const [guestName, setGuestName] = useState("");
+
   const handleComment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!blog || !commentText.trim()) return;
+    
+    const finalUserName = currentUser?.user_metadata?.full_name || currentUser?.email?.split("@")[0] || guestName.trim() || "Guest";
+    
     setSubmitting(true);
     try {
       await api.post(`/blogs/${blog.id}/comment`, {
         user_id: currentUser?.id || null,
-        user_name: currentUser?.email?.split("@")[0] || "Guest",
+        user_name: finalUserName,
         content: commentText.trim(),
       });
       setCommentText("");
@@ -141,12 +150,15 @@ const BlogDetail = () => {
 
   const handleReply = async (parentId: string) => {
     if (!blog || !replyText.trim()) return;
+    
+    const finalUserName = currentUser?.user_metadata?.full_name || currentUser?.email?.split("@")[0] || guestName.trim() || "Guest";
+
     setSubmitting(true);
     try {
       await api.post(`/blogs/${blog.id}/reply`, {
         parent_comment_id: parentId,
         user_id: currentUser?.id || null,
-        user_name: currentUser?.email?.split("@")[0] || "Guest",
+        user_name: finalUserName,
         content: replyText.trim(),
       });
       setReplyText("");
@@ -285,14 +297,23 @@ const BlogDetail = () => {
 
           {/* Comment Form */}
           <form onSubmit={handleComment} className="blog-comment-form">
+            {!currentUser && (
+              <input 
+                type="text" 
+                placeholder="Your Name (Required for Guest)" 
+                value={guestName} 
+                onChange={(e) => setGuestName(e.target.value)}
+                className="guest-name-input"
+                style={{ marginBottom: '1rem', padding: '0.75rem', borderRadius: '8px', background: '#222', border: '1px solid #333', color: '#fff', width: '100%' }}
+              />
+            )}
             <textarea
-              placeholder={currentUser ? "Write a comment..." : "Sign in to comment"}
+              placeholder="Write a comment..."
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
-              disabled={!currentUser}
             />
             <div className="blog-comment-form-actions">
-              <button type="submit" className="blog-comment-submit" disabled={submitting || !commentText.trim()}>
+              <button type="submit" className="blog-comment-submit" disabled={submitting || !commentText.trim() || (!currentUser && !guestName.trim())}>
                 {submitting ? "Posting..." : "Post Comment"}
               </button>
             </div>
@@ -312,9 +333,19 @@ const BlogDetail = () => {
               {/* Reply Form */}
               {replyTo === comment.id && (
                 <div className="blog-comment-form" style={{ marginTop: "0.75rem" }}>
+                  {!currentUser && (
+                    <input 
+                      type="text" 
+                      placeholder="Your Name" 
+                      value={guestName} 
+                      onChange={(e) => setGuestName(e.target.value)}
+                      className="guest-name-input"
+                      style={{ marginBottom: '0.5rem', padding: '0.5rem', borderRadius: '4px', background: '#222', border: '1px solid #333', color: '#fff', width: '100%' }}
+                    />
+                  )}
                   <textarea placeholder="Write a reply..." value={replyText} onChange={(e) => setReplyText(e.target.value)} />
                   <div className="blog-comment-form-actions">
-                    <button type="button" className="blog-comment-submit" onClick={() => handleReply(comment.id)} disabled={submitting || !replyText.trim()}>
+                    <button type="button" className="blog-comment-submit" onClick={() => handleReply(comment.id)} disabled={submitting || !replyText.trim() || (!currentUser && !guestName.trim())}>
                       {submitting ? "Posting..." : "Reply"}
                     </button>
                   </div>

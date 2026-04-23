@@ -11,6 +11,9 @@ import Contact from "./pages/Contact";
 import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import ProjectSubmit from "./pages/ProjectSubmit";
+import Blogs from "./pages/Blogs";
+import BlogDetail from "./pages/BlogDetail";
+import BlogCreate from "./pages/BlogCreate";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
@@ -31,6 +34,9 @@ const App = () => (
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/:id" element={<ProjectDetail />} />
             <Route path="/projects/:id/submit" element={<ProjectSubmit />} />
+            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/blogs/create" element={<BlogCreate />} />
+            <Route path="/blogs/:slug" element={<BlogDetail />} />
             <Route path="/auth" element={<Auth />} />
           </Route>
           <Route path="*" element={<NotFound />} />

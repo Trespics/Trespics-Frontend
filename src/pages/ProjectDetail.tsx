@@ -4,7 +4,8 @@ import { format, differenceInDays, differenceInHours, differenceInMinutes } from
 import { 
   Calendar, Users, FileText, Clock, ArrowLeft, 
   Rocket, CheckCircle, AlertCircle, 
-  Trophy,Sparkles, Zap, Globe
+  Trophy, Zap, Globe, 
+  Award, Code, Play
 } from "lucide-react";
 import api from "../lib/api";
 import "./styles/ProjectDetails.css";
@@ -14,6 +15,8 @@ import Prizes from "../components/hackathon/Prizes";
 import Schedule from "../components/hackathon/Schedule";
 import Rules from "../components/hackathon/Rules";
 import Resources from "../components/hackathon/Resources";
+import VideoPlayer from "../components/ui/VideoPlayer";
+
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -22,12 +25,15 @@ export default function ProjectDetail() {
   const [isRegistered, setIsRegistered] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [modalReason, setModalReason] = useState<"register" | "submit" | "login">("register");
+  const [showVideoModal, setShowVideoModal] = useState(false);
+
 
   const [hackathon, setHackathon] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   
   // Registration Form States
   const [regLeader, setRegLeader] = useState("");
+  const [regEmail, setRegEmail] = useState("");
   const [regSchool, setRegSchool] = useState("");
   const [regProject, setRegProject] = useState("");
   const [universities, setUniversities] = useState<string[]>([]);
@@ -139,9 +145,14 @@ export default function ProjectDetail() {
       } else {
         await api.post(`/hackathons/${id}/register`, {
           leader_name: regLeader,
+          email: regEmail,
           university_name: regSchool,
           project_name: regProject
         });
+        
+        // Fetch updated hackathon data to get real-time participant count
+        const updatedHackathon = await api.get(`/hackathons/${id}`);
+        setHackathon(updatedHackathon.data);
         
         setIsRegistered(true);
         // Save to local storage for 24 hours
@@ -160,17 +171,17 @@ export default function ProjectDetail() {
     }
   };
 
-  const handleSubmissionClick = (e: React.MouseEvent) => {
-    // We no longer trigger registration modal from here as per user request.
-    // However, we can keep the logic if we want to show a hint, but the user said "remove the register process"
-    // from the submission section. So we'll just let it go through and let the page handle it.
+  const formatDate = (dateStr: string) => {
+    if (!dateStr) return "";
+    const [year, month, day] = dateStr.split("T")[0].split("-").map(Number);
+    return format(new Date(year, month - 1, day), "MMM d, yyyy");
   };
 
   const getStatusIcon = () => {
     switch (hackathon.status) {
-      case "Ongoing": return <Zap size={18} />;
-      case "Upcoming": return <Clock size={18} />;
-      default: return <CheckCircle size={18} />;
+      case "Ongoing": return <Zap size={16} />;
+      case "Upcoming": return <Clock size={16} />;
+      default: return <CheckCircle size={16} />;
     }
   };
 
@@ -204,149 +215,128 @@ export default function ProjectDetail() {
 
   return (
     <div className="project-detail-container">
-      {/* Animated Background */}
-      <div className="detail-bg">
-        <div className="detail-sphere sphere-1"></div>
-        <div className="detail-sphere sphere-2"></div>
-        <div className="detail-sphere sphere-3"></div>
-        <div className="grid-pattern"></div>
-      </div>
-
-      {/* Navigation */}
+      {/* Navigation Bar */}
       <nav className="detail-nav">
         <div className="nav-container">
           <Link to="/projects" className="back-link">
-            <ArrowLeft size={20} />
+            <ArrowLeft size={18} />
             Back to Hackathons
           </Link>
           <div className="nav-links">
             <button 
               onClick={() => {
                 setActiveTab("overview");
-                const el = document.getElementById("overview");
-                el?.scrollIntoView({ behavior: "smooth" });
+                document.getElementById("overview")?.scrollIntoView({ behavior: "smooth" });
               }} 
-              className={`nav-link ${activeTab === "overview" ? "highlight" : ""}`}
+              className={`nav-link ${activeTab === "overview" ? "active" : ""}`}
             >
               Overview
             </button>
-            <button onClick={() => setActiveTab("prizes")} className={`nav-link ${activeTab === "prizes" ? "highlight" : ""}`}>Prizes</button>
-            <button onClick={() => setActiveTab("schedule")} className={`nav-link ${activeTab === "schedule" ? "highlight" : ""}`}>Schedule</button>
-            <button onClick={() => setActiveTab("rules")} className={`nav-link ${activeTab === "rules" ? "highlight" : ""}`}>Rules</button>
-            <button onClick={() => setActiveTab("resources")} className={`nav-link ${activeTab === "resources" ? "highlight" : ""}`}>Resources</button>
-            <Link 
-              to={`/projects/${id}/submit`} 
-              className="nav-link"
-            >
-              Submission
-            </Link>
+            <button onClick={() => setActiveTab("prizes")} className={`nav-link ${activeTab === "prizes" ? "active" : ""}`}>
+              <Trophy size={14} />
+              Prizes
+            </button>
+            <button onClick={() => setActiveTab("schedule")} className={`nav-link ${activeTab === "schedule" ? "active" : ""}`}>
+              <Calendar size={14} />
+              Schedule
+            </button>
+            <button onClick={() => setActiveTab("rules")} className={`nav-link ${activeTab === "rules" ? "active" : ""}`}>
+              <FileText size={14} />
+              Rules
+            </button>
+            <button onClick={() => setActiveTab("resources")} className={`nav-link ${activeTab === "resources" ? "active" : ""}`}>
+              <Code size={14} />
+              Resources
+            </button>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Compact Hero Section */}
       <div className="detail-hero">
-        <div className="hero-content">
-          <div className="hero-badge-group">
-            <div className={`hero-status ${getStatusClass()}`}>
-              {getStatusIcon()}
-              <span>{hackathon.status}</span>
+        <div className="hero-container">
+          <div className="hero-main">
+            <div className="hero-badges">
+              <div className={`hero-status ${getStatusClass()}`}>
+                {getStatusIcon()}
+                <span>{hackathon.status}</span>
+              </div>
+              <div className="hero-participants">
+                <Users size={14} />
+                <span>{(hackathon.participants_count || 0).toLocaleString()} participants</span>
+              </div>
             </div>
-            <div className="hero-badge">
+            
+            <h1 className="hero-title">{hackathon.title}</h1>
+            <p className="hero-description">{hackathon.description}</p>
+
+            {/* Compact Countdown */}
+            <div className="hero-countdown">
+              <Clock size={14} />
+              <span className="countdown-label">
+                {hackathon.status === "Ongoing" ? "Time remaining:" : "Ends in:"}
+              </span>
+              <div className="countdown-numbers">
+                <span className="countdown-number">{String(timeLeft.days).padStart(2, '0')}d</span>
+                <span className="countdown-sep">:</span>
+                <span className="countdown-number">{String(timeLeft.hours).padStart(2, '0')}h</span>
+                <span className="countdown-sep">:</span>
+                <span className="countdown-number">{String(timeLeft.mins).padStart(2, '0')}m</span>
+                <span className="countdown-sep">:</span>
+                <span className="countdown-number">{String(timeLeft.secs).padStart(2, '0')}s</span>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="hero-actions">
+              {isRegistered ? (
+                <Link to={`/projects/${id}/submit`} className="action-btn primary">
+                  <Rocket size={18} />
+                  Submit Project
+                </Link>
+              ) : (
+                <button 
+                  className="action-btn primary"
+                  onClick={() => {
+                    setModalReason("register");
+                    setShowRegisterModal(true);
+                  }}
+                  disabled={hackathon.status === "Closed"}
+                >
+                  <Rocket size={18} />
+                  Register Now
+                </button>
+              )}
+              <button 
+                className="action-btn secondary"
+                onClick={() => setShowVideoModal(true)}
+              >
+                <Play size={18} />
+                Watch Trailer
+              </button>
+
+            </div>
+          </div>
+
+          {/* Quick Info Grid */}
+          <div className="hero-info-grid">
+            <div className="info-chip">
+              <Calendar size={14} />
+              <span>Starts {formatDate(hackathon.start_date)}</span>
+            </div>
+            <div className="info-chip">
+              <Clock size={14} />
+              <span>Deadline {formatDate(hackathon.deadline)}</span>
+            </div>
+            <div className="info-chip">
               <Users size={14} />
-              <span>{(hackathon.participants || 0).toLocaleString()} Participants</span>
+              <span>Team Size: 2-6 members</span>
+            </div>
+            <div className="info-chip">
+              <Globe size={14} />
+              <span>Global (Online)</span>
             </div>
           </div>
-          
-          <h1 className="hero-title">
-            {hackathon.title}
-            <span className="hero-title-accent">🏆</span>
-          </h1>
-          <p className="hero-tagline">{hackathon.tagline}</p>
-          <p className="hero-description">{hackathon.description}</p>
-
-          {/* Countdown Timer */}
-          <div className="countdown-timer">
-            <div className="timer-label">
-              <Clock size={16} />
-              <span>{hackathon.status === "Ongoing" ? "Time Remaining" : "Starts In"}</span>
-            </div>
-            <div className="timer-values">
-              <div className="timer-unit">
-                <span className="timer-number">{String(timeLeft.days).padStart(2, '0')}</span>
-                <span className="timer-unit-label">Days</span>
-              </div>
-              <span className="timer-separator">:</span>
-              <div className="timer-unit">
-                <span className="timer-number">{String(timeLeft.hours).padStart(2, '0')}</span>
-                <span className="timer-unit-label">Hours</span>
-              </div>
-              <span className="timer-separator">:</span>
-              <div className="timer-unit">
-                <span className="timer-number">{String(timeLeft.mins).padStart(2, '0')}</span>
-                <span className="timer-unit-label">Minutes</span>
-              </div>
-              <span className="timer-separator">:</span>
-              <div className="timer-unit">
-                <span className="timer-number">{String(timeLeft.secs).padStart(2, '0')}</span>
-                <span className="timer-unit-label">Seconds</span>
-              </div>
-            </div>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="hero-actions">
-            {isRegistered ? (
-              <Link 
-                to={`/projects/${id}/submit`}
-                className="register-btn submit-btn"
-                style={{ textDecoration: 'none' }}
-              >
-                <Rocket size={20} />
-                Submit Project
-              </Link>
-            ) : (
-              <button 
-                className="register-btn"
-                onClick={() => {
-                  setModalReason("register");
-                  setShowRegisterModal(true);
-                }}
-                disabled={hackathon.status === "Closed"}
-              >
-                <Rocket size={20} />
-                Register Now
-              </button>
-            )}
-            {!isRegistered && (
-              <button 
-                className="login-hero-btn"
-                onClick={() => {
-                  setModalReason("login");
-                  setShowRegisterModal(true);
-                }}
-              >
-                Login
-              </button>
-            )}
-            <button className="watch-btn">
-              <Play size={20} />
-              Watch Trailer
-            </button>
-          </div>
-
-          {hackathon.sponsors && hackathon.sponsors.length > 0 && (
-            <div className="sponsor-section">
-              <p className="sponsor-label">Powered by</p>
-              <div className="sponsor-logos">
-                {hackathon.sponsors.map((sponsor: any, i: number) => (
-                  <div key={i} className="sponsor-logo">
-                    <span>{sponsor}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
@@ -355,43 +345,12 @@ export default function ProjectDetail() {
         <div className="content-container">
           {/* Sidebar */}
           <aside className="detail-sidebar">
-            <div className="info-card">
-              <h3>Quick Info</h3>
-              <div className="info-items">
-                <div className="info-item">
-                  <Calendar size={18} />
-                  <div>
-                    <span>Start Date</span>
-                    <strong>{format(new Date(hackathon.start_date), "MMM d, yyyy")}</strong>
-                  </div>
-                </div>
-                <div className="info-item">
-                  <Clock size={18} />
-                  <div>
-                    <span>Deadline</span>
-                    <strong>{format(new Date(hackathon.deadline), "MMM d, yyyy")}</strong>
-                  </div>
-                </div>
-                <div className="info-item">
-                  <Users size={18} />
-                  <div>
-                    <span>Team Size</span>
-                    <strong>2-6 members</strong>
-                  </div>
-                </div>
-                <div className="info-item">
-                  <Globe size={18} />
-                  <div>
-                    <span>Location</span>
-                    <strong>Global (Online)</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             {hackathon.tech_stack && hackathon.tech_stack.length > 0 && (
-              <div className="tech-card">
-                <h3>Tech Stack</h3>
+              <div className="sidebar-card">
+                <h3>
+                  <Code size={16} />
+                  Tech Stack
+                </h3>
                 <div className="tech-tags">
                   {hackathon.tech_stack.map((tech: any, i: number) => (
                     <span key={i} className="tech-tag">{tech}</span>
@@ -400,17 +359,31 @@ export default function ProjectDetail() {
               </div>
             )}
 
+            {hackathon.prize_pool && (
+              <div className="sidebar-card highlight">
+                <h3>
+                  <Award size={16} />
+                  Prize Pool
+                </h3>
+                <div className="prize-pool-value">{hackathon.prize_pool}</div>
+                {hackathon.prize_pool_desc && (
+                  <p className="prize-pool-desc">{hackathon.prize_pool_desc}</p>
+                )}
+              </div>
+            )}
+
             {hackathon.judges && hackathon.judges.length > 0 && (
-              <div className="judges-card">
-                <h3>Lead Judges</h3>
+              <div className="sidebar-card">
+                <h3>
+                  <Users size={16} />
+                  Judges
+                </h3>
                 {hackathon.judges.map((judge: any, i: number) => (
                   <div key={i} className="judge-item">
-                    <div className="judge-avatar">
-                      {judge.name.charAt(0)}
-                    </div>
-                    <div>
+                    <div className="judge-avatar">{judge.name.charAt(0)}</div>
+                    <div className="judge-info">
                       <strong>{judge.name}</strong>
-                      <span>{judge.role}, {judge.company}</span>
+                      <span>{judge.role}</span>
                     </div>
                   </div>
                 ))}
@@ -420,8 +393,8 @@ export default function ProjectDetail() {
 
           {/* Main Article */}
           <main className="detail-main">
-            {/* Tabs */}
-            <div className="detail-tabs">
+            {/* Tab Navigation */}
+            <div className="tab-navigation">
               <button 
                 className={`tab-btn ${activeTab === "overview" ? "active" : ""}`}
                 onClick={() => setActiveTab("overview")}
@@ -432,21 +405,28 @@ export default function ProjectDetail() {
                 className={`tab-btn ${activeTab === "prizes" ? "active" : ""}`}
                 onClick={() => setActiveTab("prizes")}
               >
-                <Trophy size={16} />
+                <Trophy size={14} />
                 Prizes
               </button>
               <button 
                 className={`tab-btn ${activeTab === "schedule" ? "active" : ""}`}
                 onClick={() => setActiveTab("schedule")}
               >
-                <Calendar size={16} />
+                <Calendar size={14} />
                 Schedule
+              </button>
+              <button 
+                className={`tab-btn ${activeTab === "rules" ? "active" : ""}`}
+                onClick={() => setActiveTab("rules")}
+              >
+                <FileText size={14} />
+                Rules
               </button>
               <button 
                 className={`tab-btn ${activeTab === "resources" ? "active" : ""}`}
                 onClick={() => setActiveTab("resources")}
               >
-                <FileText size={16} />
+                <Code size={14} />
                 Resources
               </button>
             </div>
@@ -456,34 +436,20 @@ export default function ProjectDetail() {
               {activeTab === "overview" && (
                 <div className="overview-section">
                   {hackathon.long_description && (
-                    <div className="section-card">
+                    <div className="content-card">
                       <h2>About the Hackathon</h2>
                       <p>{hackathon.long_description}</p>
                     </div>
                   )}
 
                   {hackathon.objectives && hackathon.objectives.length > 0 && (
-                    <div className="section-card">
+                    <div className="content-card">
                       <h2>Objectives</h2>
-                      <div className="objectives-grid">
+                      <div className="objectives-list">
                         {hackathon.objectives.map((obj: any, i: number) => (
                           <div key={i} className="objective-item">
-                            <CheckCircle size={20} className="objective-icon" />
+                            <CheckCircle size={18} />
                             <span>{obj}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {hackathon.resources && hackathon.resources.length > 0 && (
-                    <div className="section-card">
-                      <h2>What You'll Get</h2>
-                      <div className="resources-grid">
-                        {hackathon.resources.map((resource: any, i: number) => (
-                          <div key={i} className="resource-item">
-                            <Sparkles size={16} />
-                            <span>{resource}</span>
                           </div>
                         ))}
                       </div>
@@ -512,7 +478,7 @@ export default function ProjectDetail() {
             {/* Deadline Warning */}
             {isDeadlineNear && (
               <div className="deadline-warning">
-                <AlertCircle size={20} />
+                <AlertCircle size={18} />
                 <div>
                   <strong>Deadline approaching!</strong>
                   <p>Submit your project before time runs out</p>
@@ -526,18 +492,19 @@ export default function ProjectDetail() {
       {/* Registration Modal */}
       {showRegisterModal && (
         <div className="modal-overlay" onClick={() => !isRegistering && setShowRegisterModal(false)}>
-          <div className="modal-container register-modal" onClick={e => e.stopPropagation()}>
+          <div className="modal-container" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
               <h2>
                 {modalReason === "submit" ? "Register to Submit" : 
                  modalReason === "login" ? "Login to Hackathon" : "Hackathon Registration"}
               </h2>
-              <button className="close-btn" onClick={() => setShowRegisterModal(false)}>×</button>
+              <button className="modal-close" onClick={() => setShowRegisterModal(false)}>×</button>
             </div>
+            
             {modalReason === "submit" && (
               <div className="modal-notice">
                 <AlertCircle size={16} />
-                <span>You need to register your team/project before you can submit.</span>
+                <span>You need to register your team before you can submit.</span>
               </div>
             )}
             
@@ -559,10 +526,23 @@ export default function ProjectDetail() {
                   placeholder="Enter leader's full name"
                 />
               </div>
+
+              {modalReason !== "login" && (
+                <div className="form-group">
+                  <label>Email Address</label>
+                  <input 
+                    type="email" 
+                    value={regEmail} 
+                    onChange={e => setRegEmail(e.target.value)} 
+                    required 
+                    placeholder="Enter your email"
+                  />
+                </div>
+              )}
               
               {modalReason !== "login" && (
                 <>
-                  <div className="form-group autocomplete">
+                  <div className="form-group">
                     <label>School / University</label>
                     <input 
                       type="text" 
@@ -573,7 +553,7 @@ export default function ProjectDetail() {
                       placeholder="Type to search university..."
                     />
                     {showUniSuggestions && universities.length > 0 && (
-                      <ul className="suggestions">
+                      <ul className="suggestions-list">
                         {universities.map((uni, idx) => (
                           <li key={idx} onClick={() => {
                             setRegSchool(uni);
@@ -597,12 +577,12 @@ export default function ProjectDetail() {
                 </>
               )}
 
-              <button type="submit" className="submit-reg-btn" disabled={isRegistering}>
+              <button type="submit" className="submit-btn" disabled={isRegistering}>
                 {isRegistering ? "Processing..." : 
                  modalReason === "login" ? "Login" : "Confirm Registration"}
               </button>
 
-              <div className="modal-footer-text">
+              <div className="modal-footer">
                 {modalReason === "login" ? (
                   <p>Don't have a registration? <button type="button" onClick={() => setModalReason("register")}>Register Now</button></p>
                 ) : (
@@ -613,19 +593,28 @@ export default function ProjectDetail() {
           </div>
         </div>
       )}
+      {/* Video Modal */}
+      {showVideoModal && (
+        <div className="modal-overlay" onClick={() => setShowVideoModal(false)}>
+          <div className="modal-container video-modal" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>{hackathon.title} - Trailer</h2>
+              <button className="modal-close" onClick={() => setShowVideoModal(false)}>×</button>
+            </div>
+            <div className="modal-body video-body">
+              {hackathon.video_url ? (
+                <VideoPlayer url={hackathon.video_url} title={hackathon.title} />
+              ) : (
+                <div className="no-video">
+                  <Play size={48} />
+                  <p>No trailer available for this hackathon.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
+
   );
 }
-
-// Play icon component
-const Play = ({ size }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M8 5v14l11-7z"/>
-  </svg>
-);
-
-const Crown = ({ size }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2L15 9H21L16 14L19 21L12 17.5L5 21L8 14L3 9H9L12 2Z"/>
-  </svg>
-);

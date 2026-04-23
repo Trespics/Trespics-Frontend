@@ -1,20 +1,24 @@
-import { Smartphone, Globe, Server, Quote, Loader2 } from "lucide-react";
+import { Quote, Loader2 } from "lucide-react";
 import HeroSection from "@/components/HeroSection";
 import ServiceCard from "@/components/ServiceCard";
 import SectionHeading from "@/components/SectionHeading";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import api from "@/lib/api";
+import Phone from "@/assets/phone.png";
+import Global from "@/assets/Global.jpg";
+import Server from "@/assets/server.jpg";
+import ELearning from "@/assets/E-learning.png";
 import "./styles/Home.css";
 
 const services = [
   {
-    icon: Smartphone,
+    icon: Phone,
     title: "App Development",
     description: "Native and cross-platform mobile applications built for performance, security, and seamless user experience across iOS and Android.",
   },
   {
-    icon: Globe,
+    icon: Global,
     title: "Website Development",
     description: "Responsive, fast, and visually stunning websites that convert visitors into customers — from landing pages to full-scale platforms.",
   },
@@ -23,7 +27,13 @@ const services = [
     title: "Systems Solutions",
     description: "Custom enterprise systems, CRMs, ERPs, and dashboards that streamline your operations and give you real-time insights.",
   },
+  {
+    icon: ELearning,
+    title: "E-Learning Platforms",
+    description: "Scalable educational platforms and learning management systems (LMS) designed for schools, tutors, and corporate training.",
+  },
 ];
+
 
 const Index = () => {
   const [testimonials, setTestimonials] = useState<any[]>([]);

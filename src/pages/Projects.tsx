@@ -12,7 +12,7 @@ interface Hackathon {
   start_date: string;
   deadline: string;
   status: string;
-  participants?: number;
+  participants_count: number;
   prize?: string;
   level?: string;
 }
@@ -24,21 +24,37 @@ export default function HackathonProjects() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedHackathon, setSelectedHackathon] = useState<Hackathon | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [liveStats, setLiveStats] = useState({
+    total: 0,
+    ongoing: 0,
+    upcoming: 0,
+    participants: 0
+  });
 
   useEffect(() => {
-    const fetchHackathons = async () => {
+    const fetchData = async () => {
       try {
-        const response = await api.get("/hackathons");
-        setHackathons(response.data);
+        const [hackathonsRes, statsRes] = await Promise.all([
+          api.get("/hackathons"),
+          api.get("/hackathons/stats/overview")
+        ]);
+        setHackathons(hackathonsRes.data);
+        setLiveStats(statsRes.data);
       } catch (error) {
-        console.error("Error fetching hackathons:", error);
+        console.error("Error fetching hackathon data:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchHackathons();
+    fetchData();
   }, []);
+
+  const formatDate = (dateStr: string) => {
+    if (!dateStr) return '';
+    const [year, month, day] = dateStr.split('T')[0].split('-').map(Number);
+    return format(new Date(year, month - 1, day), "MMM d, yyyy");
+  };
 
   const getStatusConfig = (status: string) => {
     switch (status) {
@@ -70,13 +86,6 @@ export default function HackathonProjects() {
     return matchesFilter && matchesSearch;
   });
 
-  const stats = {
-    total: hackathons.length,
-    ongoing: hackathons.filter(h => h.status === "Ongoing").length,
-    upcoming: hackathons.filter(h => h.status === "Upcoming").length,
-    participants: hackathons.reduce((sum, h) => sum + (h.participants || 0), 0)
-  };
-
   return (
     <div className="hackathon-container">
       {/* Compact Hero Section */}
@@ -96,22 +105,22 @@ export default function HackathonProjects() {
           {/* Compact Stats */}
           <div className="hackathons-stats-row">
             <div className="stat-chip">
-              <span className="stat-chip-value">{stats.total}</span>
+              <span className="stat-chip-value">{liveStats.total}</span>
               <span className="stat-chip-label">Challenges</span>
             </div>
             <div className="stat-chip">
               <Flame size={14} />
-              <span className="stat-chip-value">{stats.ongoing}</span>
+              <span className="stat-chip-value">{liveStats.ongoing}</span>
               <span className="stat-chip-label">Live</span>
             </div>
             <div className="stat-chip">
               <Clock size={14} />
-              <span className="stat-chip-value">{stats.upcoming}</span>
+              <span className="stat-chip-value">{liveStats.upcoming}</span>
               <span className="stat-chip-label">Upcoming</span>
             </div>
             <div className="stat-chip">
               <Users size={14} />
-              <span className="stat-chip-value">{stats.participants.toLocaleString()}+</span>
+              <span className="stat-chip-value">{liveStats.participants.toLocaleString()}+</span>
               <span className="stat-chip-label">Participants</span>
             </div>
           </div>
@@ -226,21 +235,21 @@ export default function HackathonProjects() {
                           <Calendar size={14} />
                           <span className="detail-label">Starts:</span>
                           <span className="detail-value">
-                            {format(new Date(hackathon.start_date), "MMM d, yyyy")}
+                            {formatDate(hackathon.start_date)}
                           </span>
                         </div>
                         <div className="detail-row">
                           <Clock size={14} />
                           <span className="detail-label">Deadline:</span>
                           <span className="detail-value">
-                            {format(new Date(hackathon.deadline), "MMM d, yyyy")}
+                            {formatDate(hackathon.deadline)}
                           </span>
                         </div>
                         <div className="detail-row">
                           <Users size={14} />
                           <span className="detail-label">Participants:</span>
                           <span className="detail-value">
-                            {hackathon.participants?.toLocaleString() || "0"}
+                            {hackathon.participants_count?.toLocaleString() || "0"}
                           </span>
                         </div>
                         <div className="detail-row">
