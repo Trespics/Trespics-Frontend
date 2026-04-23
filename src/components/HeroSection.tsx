@@ -28,10 +28,9 @@ const HeroSection = () => (
         transition={{ delay: 0.4 }}
         className="hero-title"
       >
-        We Build Apps, Websites
+        We Build And Maintain Softwares
         <br />
-        <span className="hero-title-gradient">& Smart Systems</span>
-      </motion.h1>
+        & Smart Systems</motion.h1>
 
       <motion.p
         initial={{ opacity: 0, y: 20 }}
@@ -55,9 +54,9 @@ const HeroSection = () => (
           </button>
         </Link>
         <Link to="/products" className="hero-button-secondary-wrapper">
-          <button className="hero-button hero-button-secondary">
+          <button className="hero-button hero-button-primary">
             View Products
-          </button>    
+          </button>  
         </Link>
       </motion.div>
     </div>

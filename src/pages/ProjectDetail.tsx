@@ -389,11 +389,11 @@ export default function ProjectDetail() {
               </div>
             </div>
 
-            {hackathon.techStack && hackathon.techStack.length > 0 && (
+            {hackathon.tech_stack && hackathon.tech_stack.length > 0 && (
               <div className="tech-card">
                 <h3>Tech Stack</h3>
                 <div className="tech-tags">
-                  {hackathon.techStack.map((tech: any, i: number) => (
+                  {hackathon.tech_stack.map((tech: any, i: number) => (
                     <span key={i} className="tech-tag">{tech}</span>
                   ))}
                 </div>
@@ -455,10 +455,10 @@ export default function ProjectDetail() {
             <div className="tab-content">
               {activeTab === "overview" && (
                 <div className="overview-section">
-                  {hackathon.longDescription && (
+                  {hackathon.long_description && (
                     <div className="section-card">
                       <h2>About the Hackathon</h2>
-                      <p>{hackathon.longDescription}</p>
+                      <p>{hackathon.long_description}</p>
                     </div>
                   )}
 

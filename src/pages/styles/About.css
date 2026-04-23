@@ -1,0 +1,257 @@
+/* About Page Container */
+.about-page {
+  padding-top: 64px;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* About Section */
+.about-section {
+  padding: 80px 0;
+  background-color: #f5f5f5;
+  text-align: center;
+}
+
+.section-label {
+  color: #4caf50;
+  font-weight: 500;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.about-title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 768px) {
+  .about-title {
+    font-size: 48px;
+  }
+}
+
+.about-description {
+  color: #666666;
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Mission & Vision Section */
+.mission-vision-section {
+  padding: 80px 0;
+  background-color: #ffffff;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .values-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.value-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 32px;
+  transition: box-shadow 0.3s ease;
+}
+
+.value-card:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.value-icon {
+  width: 40px;
+  height: 40px;
+  color: #4caf50;
+  margin-bottom: 16px;
+}
+
+.value-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #333333;
+}
+
+.value-text {
+  color: #666666;
+  line-height: 1.6;
+}
+
+/* Stats Section */
+.stats-section {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #4caf50, #45a049);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 36px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+@media (min-width: 768px) {
+  .stat-value {
+    font-size: 48px;
+  }
+}
+
+.stat-label {
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 8px;
+}
+
+/* Team Section (commented out in component) */
+.team-section {
+  padding: 80px 0;
+  background-color: #ffffff;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  margin-top: 48px;
+}
+
+@media (min-width: 768px) {
+  .team-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Timeline Section (commented out in component) */
+.timeline-section {
+  padding: 80px 0;
+  background-color: #f5f5f5;
+}
+
+.timeline-container {
+  max-width: 600px;
+  margin: 48px auto 0;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.timeline-marker-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timeline-marker {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4caf50, #45a049);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.timeline-line {
+  width: 2px;
+  height: 100%;
+  background-color: #e0e0e0;
+  margin-top: 8px;
+}
+
+.timeline-content {
+  padding-bottom: 16px;
+}
+
+.timeline-year {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 4px;
+  color: #333333;
+}
+
+.timeline-event {
+  color: #666666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .about-section,
+  .mission-vision-section,
+  .stats-section,
+  .team-section,
+  .timeline-section {
+    padding: 48px 0;
+  }
+
+  .about-title {
+    font-size: 28px;
+  }
+
+  .about-description {
+    font-size: 16px;
+    padding: 0 16px;
+  }
+
+  .value-card {
+    padding: 24px;
+  }
+
+  .value-title {
+    font-size: 20px;
+  }
+
+  .stat-value {
+    font-size: 28px;
+  }
+
+  .timeline-item {
+    gap: 16px;
+  }
+
+  .timeline-marker {
+    width: 32px;
+    height: 32px;
+    font-size: 10px;
+  }
+}

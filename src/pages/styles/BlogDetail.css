@@ -1,0 +1,109 @@
+/* Blog Detail Page */
+.blog-detail-page { padding-top: 4rem; background: #0a0a0a; min-height: 100vh; }
+
+.blog-detail-container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+/* Header */
+.blog-detail-header { margin-bottom: 2rem; }
+.blog-detail-breadcrumb { display:flex; align-items:center; gap:0.5rem; color:#666; font-size:0.85rem; margin-bottom:1.5rem; }
+.blog-detail-breadcrumb a { color:#16cf21; text-decoration:none; }
+.blog-detail-breadcrumb a:hover { text-decoration:underline; }
+.blog-detail-category { display:inline-block; padding:4px 14px; background:rgba(22,207,33,0.15); color:#16cf21; font-size:0.8rem; font-weight:600; border-radius:20px; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:1rem; }
+.blog-detail-title { font-family:'Poppins',sans-serif; font-size:2.5rem; font-weight:700; color:#fff; line-height:1.3; margin-bottom:1rem; }
+
+.blog-detail-meta { display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap; padding-bottom:1.5rem; border-bottom:1px solid #2a2a2a; }
+.blog-detail-author { display:flex; align-items:center; gap:0.75rem; }
+.blog-detail-author-avatar { width:40px; height:40px; border-radius:50%; background:#16cf21; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:600; font-size:1rem; }
+.blog-detail-author-info { display:flex; flex-direction:column; }
+.blog-detail-author-name { color:#fff; font-weight:500; font-size:0.95rem; }
+.blog-detail-author-date { color:#666; font-size:0.8rem; }
+.blog-detail-stat { display:flex; align-items:center; gap:0.35rem; color:#999; font-size:0.85rem; }
+
+/* Featured Image */
+.blog-detail-image { width:100%; max-height:500px; object-fit:cover; border-radius:12px; margin-bottom:2rem; border:1px solid #2a2a2a; }
+
+/* Video */
+.blog-detail-video { width:100%; aspect-ratio:16/9; border-radius:12px; margin-bottom:2rem; border:1px solid #2a2a2a; }
+
+/* Content */
+.blog-detail-content { color:#e0e0e0; font-size:1.05rem; line-height:1.8; margin-bottom:2rem; }
+.blog-detail-content h1,.blog-detail-content h2,.blog-detail-content h3 { color:#fff; margin:1.5rem 0 0.75rem; font-family:'Poppins',sans-serif; }
+.blog-detail-content h2 { font-size:1.5rem; }
+.blog-detail-content h3 { font-size:1.25rem; }
+.blog-detail-content p { margin-bottom:1rem; }
+.blog-detail-content a { color:#16cf21; text-decoration:underline; }
+.blog-detail-content blockquote { border-left:4px solid #16cf21; padding:1rem 1.5rem; margin:1.5rem 0; background:rgba(22,207,33,0.05); border-radius:0 8px 8px 0; color:#ccc; font-style:italic; }
+.blog-detail-content code { background:#1a1a1a; padding:2px 6px; border-radius:4px; font-size:0.9rem; color:#16cf21; }
+.blog-detail-content pre { background:#1a1a1a; padding:1rem; border-radius:8px; overflow-x:auto; margin:1rem 0; border:1px solid #2a2a2a; }
+.blog-detail-content pre code { background:none; padding:0; }
+.blog-detail-content ul,.blog-detail-content ol { padding-left:1.5rem; margin-bottom:1rem; }
+.blog-detail-content li { margin-bottom:0.5rem; }
+.blog-detail-content img { max-width:100%; border-radius:8px; margin:1rem 0; }
+
+/* Actions Bar */
+.blog-detail-actions { display:flex; align-items:center; gap:1rem; padding:1.5rem 0; border-top:1px solid #2a2a2a; border-bottom:1px solid #2a2a2a; margin-bottom:2rem; flex-wrap:wrap; }
+.blog-action-btn { display:flex; align-items:center; gap:0.5rem; padding:0.6rem 1.2rem; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:8px; color:#999; font-size:0.9rem; cursor:pointer; transition:all 0.3s ease; }
+.blog-action-btn:hover { border-color:#16cf21; color:#16cf21; background:rgba(22,207,33,0.05); }
+.blog-action-btn.liked { color:#ef4444; border-color:#ef4444; background:rgba(239,68,68,0.05); }
+.blog-action-btn.saved { color:#f59e0b; border-color:#f59e0b; background:rgba(245,158,11,0.05); }
+.blog-share-btns { display:flex; gap:0.5rem; margin-left:auto; }
+.blog-share-btn { width:36px; height:36px; border-radius:8px; background:#1a1a1a; border:1px solid #2a2a2a; color:#999; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; }
+.blog-share-btn:hover { border-color:#16cf21; color:#16cf21; }
+
+/* Tags */
+.blog-detail-tags { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:2rem; }
+.blog-tag { padding:4px 12px; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:20px; color:#999; font-size:0.8rem; }
+
+/* Comments Section */
+.blog-comments-section { margin-top:2rem; }
+.blog-comments-title { font-family:'Poppins',sans-serif; font-size:1.3rem; font-weight:600; color:#fff; margin-bottom:1.5rem; }
+
+.blog-comment-form { margin-bottom:2rem; }
+.blog-comment-form textarea { width:100%; min-height:100px; padding:1rem; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:8px; color:#e0e0e0; font-size:0.95rem; resize:vertical; outline:none; transition:border-color 0.3s; font-family:inherit; }
+.blog-comment-form textarea:focus { border-color:#16cf21; }
+.blog-comment-form-actions { display:flex; justify-content:flex-end; gap:0.75rem; margin-top:0.75rem; }
+.blog-comment-submit { padding:0.6rem 1.5rem; background:linear-gradient(135deg,#16cf21,#0f8318); color:#fff; border:none; border-radius:8px; font-size:0.9rem; font-weight:500; cursor:pointer; transition:all 0.3s; }
+.blog-comment-submit:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(22,207,33,0.3); }
+.blog-comment-submit:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+
+.blog-comment { padding:1rem; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:8px; margin-bottom:1rem; }
+.blog-comment-header { display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem; }
+.blog-comment-avatar { width:32px; height:32px; border-radius:50%; background:#16cf21; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.75rem; font-weight:600; }
+.blog-comment-author { color:#fff; font-weight:500; font-size:0.9rem; }
+.blog-comment-date { color:#666; font-size:0.75rem; margin-left:auto; }
+.blog-comment-content { color:#ccc; font-size:0.9rem; line-height:1.5; }
+.blog-comment-reply-btn { background:none; border:none; color:#16cf21; font-size:0.8rem; cursor:pointer; margin-top:0.5rem; padding:0; }
+.blog-comment-reply-btn:hover { text-decoration:underline; }
+.blog-comment-replies { margin-left:2rem; margin-top:0.75rem; }
+
+/* Related Blogs */
+.blog-related-section { margin-top:3rem; padding-top:2rem; border-top:1px solid #2a2a2a; }
+.blog-related-title { font-family:'Poppins',sans-serif; font-size:1.3rem; font-weight:600; color:#fff; margin-bottom:1.5rem; }
+.blog-related-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1rem; }
+.blog-related-card { background:#1a1a1a; border:1px solid #2a2a2a; border-radius:8px; padding:1rem; transition:all 0.3s; cursor:pointer; text-decoration:none; }
+.blog-related-card:hover { border-color:rgba(22,207,33,0.3); transform:translateY(-2px); }
+.blog-related-card-title { color:#fff; font-size:0.95rem; font-weight:500; margin-bottom:0.5rem; line-height:1.4; }
+.blog-related-card-meta { color:#666; font-size:0.8rem; }
+
+/* Loading */
+.blog-detail-loading { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8rem 2rem; color:#999; }
+.blog-detail-spinner { width:40px; height:40px; border:3px solid #2a2a2a; border-top-color:#16cf21; border-radius:50%; animation:blogs-spin 0.8s linear infinite; margin-bottom:1rem; }
+
+/* Not Found */
+.blog-not-found { text-align:center; padding:8rem 2rem; color:#999; }
+.blog-not-found h2 { color:#fff; font-size:1.5rem; margin-bottom:0.5rem; }
+.blog-not-found a { color:#16cf21; text-decoration:none; margin-top:1rem; display:inline-block; }
+
+/* Responsive */
+@media (max-width:768px) {
+  .blog-detail-title { font-size:1.8rem; }
+  .blog-detail-meta { gap:1rem; }
+  .blog-detail-actions { gap:0.5rem; }
+  .blog-share-btns { margin-left:0; width:100%; justify-content:flex-start; }
+  .blog-related-grid { grid-template-columns:1fr; }
+  .blog-comment-replies { margin-left:1rem; }
+}
+@media (max-width:480px) {
+  .blog-detail-container { padding:1.5rem 1rem 3rem; }
+  .blog-detail-title { font-size:1.5rem; }
+}

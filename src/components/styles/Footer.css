@@ -4,10 +4,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
+}   
 
 .footer {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  background: #025f08;
   color: #ffffff;
   padding: 4rem 0 2rem;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;

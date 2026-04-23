@@ -5,6 +5,7 @@ import SectionHeading from "@/components/SectionHeading";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import api from "@/lib/api";
+import "./styles/Home.css";
 
 const services = [
   {
@@ -47,14 +48,14 @@ const Index = () => {
       <HeroSection />
 
       {/* Services Section */}
-      <section className="section-padding bg-section-alt">
-        <div className="container mx-auto">
+      <section className="services-section">
+        <div className="container">
           <SectionHeading
             label="What We Do"
             title="Our Services"
             description="We deliver end-to-end digital solutions tailored to your business needs."
           />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="services-grid">
             {services.map((s, i) => (
               <ServiceCard key={s.title} {...s} index={i} />
             ))}
@@ -63,16 +64,18 @@ const Index = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="section-padding">
-        <div className="container mx-auto">
+      <section className="testimonials-section">
+        <div className="container">
           <SectionHeading
             label="Testimonials"
             title="What Our Clients Say"
           />
           {loading ? (
-            <div className="flex justify-center p-10"><Loader2 className="animate-spin text-primary" /></div>
+            <div className="loading-container">
+              <Loader2 className="loading-spinner" />
+            </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="testimonials-grid">
               {testimonials.map((t, i) => (
                 <motion.div
                   key={t.id || i}
@@ -80,37 +83,37 @@ const Index = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.15 }}
-                  className="bg-card border rounded-lg p-8 relative"
+                  className="testimonial-card"
                 >
-                  <Quote size={32} className="text-primary/20 mb-4" />
-                  <p className="text-muted-foreground text-sm mb-6 italic leading-relaxed">"{t.quote}"</p>
+                  <Quote className="testimonial-quote-icon" />
+                  <p className="testimonial-quote">"{t.quote}"</p>
                   <div>
-                    <p className="font-heading font-semibold text-sm">{t.author}</p>
-                    <p className="text-muted-foreground text-xs">{t.company}</p>
+                    <p className="testimonial-author">{t.author}</p>
+                    <p className="testimonial-company">{t.company}</p>
                   </div>
                 </motion.div>
               ))}
-            </div>
+            </div>     
           )}
         </div>
       </section>
 
       {/* CTA */}
-      <section className="section-padding gradient-primary text-center">
-        <div className="container mx-auto">
+      <section className="cta-section">
+        <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
+            <h2 className="cta-title">
               Ready to Build Something Great?
             </h2>
-            <p className="text-primary-foreground/70 mb-8 max-w-xl mx-auto">
+            <p className="cta-description">
               Let's turn your vision into reality. Get in touch and let's start your project today.
             </p>
             <a href="/contact">
-              <button className="bg-background text-foreground font-medium px-8 py-3 rounded-lg hover:opacity-90 transition-opacity">
+              <button className="cta-button">
                 Contact Us
               </button>
             </a>
