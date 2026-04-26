@@ -11,33 +11,13 @@ import Server from "@/assets/server.jpg";
 import ELearning from "@/assets/E-learning.png";
 import "./styles/Home.css";
 
-const services = [
-  {
-    icon: Phone,
-    title: "App Development",
-    description: "Native and cross-platform mobile applications built for performance, security, and seamless user experience across iOS and Android.",
-  },
-  {
-    icon: Global,
-    title: "Website Development",
-    description: "Responsive, fast, and visually stunning websites that convert visitors into customers — from landing pages to full-scale platforms.",
-  },
-  {
-    icon: Server,
-    title: "Systems Solutions",
-    description: "Custom enterprise systems, CRMs, ERPs, and dashboards that streamline your operations and give you real-time insights.",
-  },
-  {
-    icon: ELearning,
-    title: "E-Learning Platforms",
-    description: "Scalable educational platforms and learning management systems (LMS) designed for schools, tutors, and corporate training.",
-  },
-];
 
 
 const Index = () => {
   const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [services, setServices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [servicesLoading, setServicesLoading] = useState(true);
 
   useEffect(() => {
     const fetchTestimonials = async () => {
@@ -50,7 +30,20 @@ const Index = () => {
         setLoading(false);
       }
     };
+
+    const fetchServices = async () => {
+      try {
+        const response = await api.get('/services');
+        setServices(response.data);
+      } catch (err) {
+        console.error("Failed to fetch services", err);
+      } finally {
+        setServicesLoading(false);
+      }
+    };
+
     fetchTestimonials();
+    fetchServices();
   }, []);
 
   return (
@@ -66,9 +59,22 @@ const Index = () => {
             description="We deliver end-to-end digital solutions tailored to your business needs."
           />
           <div className="services-grid">
-            {services.map((s, i) => (
-              <ServiceCard key={s.title} {...s} index={i} />
-            ))}
+            {servicesLoading ? (
+              <div className="loading-container">
+                <Loader2 className="loading-spinner" />
+              </div>
+            ) : (
+              services.slice(0, 4).map((s, i) => (
+                <ServiceCard 
+                  key={s.id} 
+                  id={s.id}
+                  icon={s.image_url || s.icon} 
+                  title={s.title} 
+                  description={s.description} 
+                  index={i} 
+                />
+              ))
+            )}
           </div>
         </div>
       </section>

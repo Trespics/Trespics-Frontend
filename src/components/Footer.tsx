@@ -21,7 +21,7 @@ const Footer = () => (
 
         {/* Quick Links */}
         <div className="footer-links">
-          <h4 className="footer-links-title">Quick Links</h4>
+          <h4 className="footer-links-title">Quick Links</h4>    
           <ul className="footer-links-list">
             <li>
               <Link to="/" className="footer-link">
@@ -31,6 +31,11 @@ const Footer = () => (
             <li>
               <Link to="/about" className="footer-link">
                 About Us
+              </Link>
+            </li>
+            <li>
+              <Link to="/services" className="footer-link">
+                Services
               </Link>
             </li>
             <li>
