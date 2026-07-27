@@ -7,6 +7,7 @@ import {
   FileText, Award, Sparkles, ChevronRight, ChevronLeft
 } from "lucide-react";
 import api from "../lib/api";
+import SEO from "../components/SEO";
 import "./styles/ProjectSubmit.css";
 
 export default function ProjectSubmit() {
@@ -287,6 +288,12 @@ export default function ProjectSubmit() {
 
   return (
     <div className="submit-container">
+      <SEO 
+        title="Submit Hackathon Project | Florante Tech Platform"
+        description="Submit your software project, web application, code repository, and video demo to Florante (Florant) tech hackathons."
+        keywords="submit project, hackathons, florante, florant, software project, tech hackathon submission, computer systems"
+        canonical={`/projects/${id}/submit`}
+      />
       {/* Background Elements */}
       <div className="submit-bg">
         <div className="bg-sphere sphere-1"></div>

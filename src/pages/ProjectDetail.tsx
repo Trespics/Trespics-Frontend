@@ -8,6 +8,7 @@ import {
   Award, Code, Play
 } from "lucide-react";
 import api from "../lib/api";
+import SEO from "../components/SEO";
 import "./styles/ProjectDetails.css";
 
 // New Components
@@ -215,6 +216,26 @@ export default function ProjectDetail() {
 
   return (
     <div className="project-detail-container">
+      <SEO 
+        title={hackathon ? `${hackathon.title} | Florante Tech Hackathons` : "Hackathon Details | Florante"}
+        description={hackathon ? hackathon.description : "View tech hackathon project details, prizes, rules, and schedules on Florante (Florant)."}
+        keywords={hackathon ? `${hackathon.title}, hackathons, florante, florant, software, systems, tech, computer` : "hackathons, florante, tech, software, systems"}
+        canonical={`/projects/${id}`}
+        jsonLd={hackathon ? {
+          "@context": "https://schema.org",
+          "@type": "Event",
+          "name": hackathon.title,
+          "description": hackathon.description,
+          "startDate": hackathon.start_date,
+          "endDate": hackathon.deadline,
+          "eventStatus": "https://schema.org/EventScheduled",
+          "organizer": {
+            "@type": "Organization",
+            "name": "Florante",
+            "url": "https://florante.tech"
+          }
+        } : undefined}
+      />
       {/* Navigation Bar */}
       <nav className="detail-nav">
         <div className="nav-container">

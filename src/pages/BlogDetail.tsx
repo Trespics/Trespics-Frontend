@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Eye, Heart, Bookmark, MessageCircle, Share2, Copy, ChevronRight, ArrowLeft, Calendar } from "lucide-react";
 import api from "@/lib/api";
 import { supabase } from "@/lib/supabaseClient";
+import SEO from "@/components/SEO";
 import "./styles/BlogDetail.css";
 
 interface Blog {
@@ -221,6 +222,34 @@ const BlogDetail = () => {
 
   return (
     <div className="blog-detail-page">
+      <SEO 
+        title={blog ? `${blog.title} | Florante Tech Blogs` : "Blog Detail | Florante"}
+        description={blog ? (blog.excerpt || blog.title) : "Read tech articles and software insights on Florante."}
+        keywords={blog ? `${blog.title}, ${blog.category}, ${blog.tags?.join(", ") || ""}, florante, florant, blogs, software, systems` : "blogs, florante, tech, software"}
+        canonical={`/blogs/${slug}`}
+        ogImage={blog?.featured_image || undefined}
+        ogType="article"
+        jsonLd={blog ? {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": blog.title,
+          "description": blog.excerpt,
+          "image": blog.featured_image ? [blog.featured_image] : undefined,
+          "datePublished": blog.published_at,
+          "author": {
+            "@type": "Person",
+            "name": blog.author_name || "Florante Author"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Florante",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://florante.tech/logo.png"
+            }
+          }
+        } : undefined}
+      />
       <div className="blog-detail-container">
         {/* Breadcrumb */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="blog-detail-breadcrumb">

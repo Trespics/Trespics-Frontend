@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { 
@@ -47,6 +48,12 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Software & Smart Computer Systems Services | Florante (Florant)"
+        description="Florante (Florant) offers custom software development, enterprise computer systems engineering, cloud architecture, and tech consulting."
+        keywords="florante, florant, services, software development, computer systems, tech consulting, web applications, enterprise software"
+        canonical="/services"
+      />
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/5 to-background -z-10" />

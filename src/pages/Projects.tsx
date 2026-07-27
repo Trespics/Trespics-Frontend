@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { Calendar, Users, Trophy, Clock, ChevronRight, Sparkles, Target, Award, Flame, TrendingUp, Star, Filter, Search } from "lucide-react";
 import api from "../lib/api";
+import SEO from "../components/SEO";
 import "./styles/Projects.css";
 
 interface Hackathon {
@@ -88,6 +89,12 @@ export default function HackathonProjects() {
 
   return (
     <div className="hackathon-container">
+      <SEO
+        title="Tech Projects & Hackathons | Florante (Florant)"
+        description="Discover live and upcoming tech hackathons, coding challenges, software engineering competitions, and computer system projects hosted by Florante (Florant)."
+        keywords="florante, florant, hackathons, tech hackathons, software projects, coding challenges, computer science competition, tech projects"
+        canonical="/projects"
+      />
       {/* Compact Hero Section */}
       <div className="hackathons-hero">
         <div className="hackathons-hero-content">

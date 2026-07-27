@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef } from "react";
+import SEO from "@/components/SEO";
 
 interface Service {
   id: string;
@@ -81,6 +82,23 @@ const ServiceDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title={service ? `${service.title} | Florante Services` : "Service Details | Florante"}
+        description={service ? service.description : "Software engineering and computer systems services by Florante (Florant)."}
+        keywords={service ? `${service.title}, ${service.category || ""}, florante, florant, software, systems, tech` : "services, florante, tech, software, systems"}
+        canonical={`/services/${id}`}
+        jsonLd={service ? {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": service.title,
+          "description": service.description,
+          "provider": {
+            "@type": "Organization",
+            "name": "Florante",
+            "url": "https://florante.tech"
+          }
+        } : undefined}
+      />
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] flex items-end overflow-hidden">
         <div className="absolute inset-0">

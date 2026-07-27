@@ -2,6 +2,7 @@ import { Quote, Loader2 } from "lucide-react";
 import HeroSection from "@/components/HeroSection";
 import ServiceCard from "@/components/ServiceCard";
 import SectionHeading from "@/components/SectionHeading";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import api from "@/lib/api";
@@ -10,8 +11,6 @@ import Global from "@/assets/Global.jpg";
 import Server from "@/assets/server.jpg";
 import ELearning from "@/assets/E-learning.png";
 import "./styles/Home.css";
-
-
 
 const Index = () => {
   const [testimonials, setTestimonials] = useState<any[]>([]);
@@ -48,6 +47,12 @@ const Index = () => {
 
   return (
     <>
+      <SEO 
+        title="Florante | Software, Smart Systems, Hackathons & Tech Blogs"
+        description="Florante (Florant) delivers cutting-edge software solutions, smart computer systems, developer hackathons, and technology blogs."
+        keywords="florante, florant, hackathons, blogs, software, systems, tech, technology, computer, web applications, computer science"
+        canonical="/"
+      />
       <HeroSection />
 
       {/* Services Section */}

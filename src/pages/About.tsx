@@ -1,5 +1,6 @@
 import SectionHeading from "@/components/SectionHeading";
 import TeamMember from "@/components/TeamMember";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { Target, Eye, Zap, Users } from "lucide-react";
 import team1 from "@/assets/team-1.jpg";
@@ -29,6 +30,12 @@ const stats = [
 
 const About = () => (
   <div className="about-page">
+    <SEO
+      title="About Florante (Florant) | Software, Tech Systems & Innovation"
+      description="Learn about Florante (Florant), our mission, tech vision, software engineering culture, computer systems, and innovative team."
+      keywords="florante, florant, about florante, software engineers, computer systems, tech company, technology vision, software team"
+      canonical="/about"
+    />
     {/* About */}
     <section className="about-section">
       <div className="container">

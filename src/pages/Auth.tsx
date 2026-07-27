@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
+import SEO from "@/components/SEO";
 import "./styles/Products.css"; // Reuse styling container if needed, or inline
 
 export default function Auth() {
@@ -44,15 +45,20 @@ export default function Auth() {
       });
     } else {
       toast({
-        title: isLogin ? "Logged in successfully" : "Signed up successfully",
-        description: isLogin ? "Welcome back!" : "Please check your email to verify.",
+        title: "Success",
+        description: isLogin ? "Logged in successfully!" : "Signed up successfully! Check your email.",
       });
-      navigate("/projects");
+      navigate("/");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[70vh] p-4">
+    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
+      <SEO
+        title="Sign In & Register | Florante (Florant)"
+        description="Sign in or register for a Florante account to access hackathons, software projects, and tech developer features."
+        canonical="/auth"
+      />
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg dark:bg-gray-900 border border-gray-100 dark:border-gray-800">
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Search, Eye, Heart, Bookmark, MessageCircle, ArrowRight, PenLine, FileText, Calendar } from "lucide-react";
 import api from "@/lib/api";
+import SEO from "@/components/SEO";
 import "./styles/Blogs.css";
 
 interface Blog {
@@ -71,6 +72,12 @@ const Blogs = () => {
 
   return (
     <div className="blogs-page">
+      <SEO
+        title="Technology & Software Blogs | Florante (Florant)"
+        description="Explore technology blogs, computer science insights, software engineering articles, and enterprise systems news by Florante (Florant)."
+        keywords="florante, florant, blogs, tech blogs, software blogs, technology articles, computer science, programming insights"
+        canonical="/blogs"
+      />
       {/* Hero */}
       <section className="blogs-hero">
         <div className="blogs-hero-container">

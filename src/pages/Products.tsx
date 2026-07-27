@@ -1,5 +1,6 @@
 import SectionHeading from "@/components/SectionHeading";
 import ProductCard from "@/components/ProductCard";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Loader2, Search, Filter, Grid3x3, LayoutList } from "lucide-react";
@@ -23,7 +24,7 @@ const Products = () => {
       setProducts(response.data);
       
       // Extract unique categories
-      const uniqueCategories = ["All", ...new Set(response.data.map((p: any) => p.category).filter(Boolean))];
+      const uniqueCategories: string[] = ["All", ...Array.from(new Set(response.data.map((p: any) => p.category).filter(Boolean))) as string[]];
       setCategories(uniqueCategories);
     } catch (err: any) {
       console.error("Failed to fetch products", err);
@@ -47,6 +48,12 @@ const Products = () => {
 
   return (
     <div className="products-page">
+      <SEO
+        title="Software & Systems Products | Florante (Florant)"
+        description="Discover ready-made software products, enterprise system templates, computer web applications, and digital tools created by Florante (Florant)."
+        keywords="florante, florant, products, software products, enterprise systems, digital applications, computer tools"
+        canonical="/products"
+      />
       {/* Compact Hero Section */}
       <section className="products-hero-section">
         <div className="products-hero-container">

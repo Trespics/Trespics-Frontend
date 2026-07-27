@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send, MessageCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import api from "@/lib/api";
+import SEO from "@/components/SEO";
 import "./styles/Contact.css";
 
 const Contact = () => {
@@ -49,6 +50,12 @@ const Contact = () => {
 
   return (
     <div className="contact-page">
+      <SEO
+        title="Contact Florante (Florant) | Software & Systems Support"
+        description="Get in touch with Florante (Florant) for custom software development, computer systems inquiries, tech hackathon partnerships, and support."
+        keywords="florante, florant, contact florante, tech support, software inquiry, computer systems consulting"
+        canonical="/contact"
+      />
       {/* Hero Section */}
       <section className="contact-hero-section">
         <div className="contact-hero-container">

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Upload, Eye, EyeOff, X, LogIn } from "lucide-react";
 import api from "@/lib/api";
 import { supabase } from "@/lib/supabaseClient";
+import SEO from "@/components/SEO";
 import "./styles/BlogCreate.css";
 
 const CATEGORIES = ["General", "Technology", "Design", "Business", "Tutorial", "News", "Opinion", "Case Study"];
@@ -100,6 +101,12 @@ const BlogCreate = () => {
 
   return (
     <div className="blog-create-page">
+      <SEO
+        title="Create & Publish Tech Blog | Florante (Florant)"
+        description="Write and publish software engineering articles, computer technology tutorials, and tech insights on the Florante (Florant) blog platform."
+        keywords="create blog, write tech article, florante, florant, software blog, computer science publishing"
+        canonical="/blogs/create"
+      />
       <div className="blog-create-container">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="blog-create-header">
           <h1>Write a Blog</h1>
